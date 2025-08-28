@@ -1,328 +1,13 @@
-<!-- <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link href="./styles.css" rel="stylesheet" />
-  </head>
-
-  <body>
-    <form id="extension-form">
-      <div>Choose a text element and select the emoji to insert</div>
-      <div id="emoji-container">
-        <button id="smile">😊</button>
-        <button id="wink">😉</button>
-        <button id="heart">😍</button>
-        <button id="cry">😭</button>
-      </div>
-    </form>
-
-    <script src="index.js" defer></script>
-  </body>
-</html> -->
-
-
-
-
-
-
-<!-- <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Box Shadow Presets</title>
-    <link rel="stylesheet" href="./style.css" />
-  </head>
-  <body>
-    <h3 class="title">✨ Box Shadow Presets</h3>
-
-    <div class="btn-row">
-      <button type="button" id="soft">Soft</button>
-      <button type="button" id="medium">Medium</button>
-      <button type="button" id="strong">Strong</button>
-      <button type="button" id="inner">Inner</button>
-      <button type="button" id="glowing">Glowing</button>
-    </div>
-
-    <div id="message" class="message" style="display:none;"></div>
-
-    <script src="./index.js"></script>
-  </body>
-</html> -->
-
-
-
-
-
-
-
-<!-- 
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8" />
-  <title>Box Shadow Presets</title>
-  <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-  <header class="app-header">Box Shadow Presets</header>
-  <main id="app" class="app"></main>
-  <script src="./index.js"></script>
-</body>
-</html> -->
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css">
     <title>Box Shadow Presets | Webflow App</title>
-    <style>
-        /* Global Reset and Base Styles */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-        }
-        
-        /* Body Styling */
-        body {
-            background: #f5f7f9;
-            color: #1a1a1a;
-            line-height: 1.5;
-            padding: 16px;
-            width: 100%; /* Ensure body takes full width */
-            overflow-x: hidden;
-        }
-        
-        /* Main App Container - Now fully fluid */
-        .app-container {
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-            padding: 20px;
-            width: 100%; /* Make the container take 100% of available width */
-            /* Removed max-width to allow it to expand beyond 340px */
-            margin: 0 auto; /* Still keeps it centered if parent has max-width */
-        }
-        
-        /* App Header - Improved Alignment */
-        .app-header {
-            display: flex;
-            align-items: center; /* Vertically align items in the center */
-            margin-bottom: 20px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid #e6e9ef;
-        }
-        
-        /* App Icon - Adjusted margin for better spacing */
-        .app-icon {
-            width: 36px; /* Slightly larger icon */
-            height: 36px; /* Slightly larger icon */
-            background: linear-gradient(135deg, #6e8efb, #a777e3);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 14px; /* Increased space between icon and text */
-            color: white;
-            font-weight: bold;
-            font-size: 16px; /* Slightly larger font for icon text */
-        }
-        
-        /* App Title */
-        .app-title {
-            font-size: 19px; /* Slightly larger title */
-            font-weight: 600;
-            color: #1a1a1a;
-            line-height: 1.2; /* Tighter line height for title */
-        }
-        
-        /* App Description */
-        .app-description {
-            font-size: 13px;
-            color: #666;
-            margin-top: 2px; /* Reduced margin for closer description */
-        }
-        
-        /* General State Styling (used for messages or initial states) */
-        .state {
-            text-align: center;
-            padding: 20px 0;
-        }
-        
-        /* Selected Element Display */
-        .selected-element {
-            background: #f0f4ff;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-            font-size: 13px;
-            color: #4a4a4a;
-        }
-        
-        .element-name {
-            font-weight: 600;
-            color: #3d5afe;
-        }
-        
-        /* Presets Grid */
-        .presets-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Default two columns */
-            gap: 12px;
-            margin-top: 16px;
-        }
-        
-        /* Preset Card Styling */
-        .preset-card {
-            background: #fff;
-            border: 1px solid #e6e9ef;
-            border-radius: 10px;
-            padding: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-        }
-        
-        .preset-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-            border-color: #c2c9d6;
-        }
-        
-        .preset-card.active {
-            border-color: #3d5afe;
-            background-color: #f0f4ff;
-        }
-        
-        /* Shadow Preview Box within cards */
-        .shadow-preview {
-            width: 100%;
-            height: 70px;
-            border-radius: 8px;
-            background: #fff;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .preset-name {
-            font-size: 12px;
-            font-weight: 600;
-            color: #333;
-            text-transform: capitalize;
-        }
-        
-        /* No Element Selected State */
-        .no-element {
-            padding: 30px 20px;
-            text-align: center;
-        }
-        
-        .no-element-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-            color: #a0a5b1;
-        }
-        
-        .no-element-title {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #4a4a4a;
-        }
-        
-        .no-element-description {
-            color: #7b7b7b;
-            font-size: 13px;
-            line-height: 1.5;
-        }
-        
-        /* Flash Message Styling */
-        .message {
-            margin-top: 16px;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            text-align: center;
-            animation: fadeIn 0.3s ease;
-            opacity: 1;
-            transition: opacity 0.3s ease;
-        }
-        
-        .success {
-            background: #e6f4ea;
-            color: #137333;
-        }
-        
-        .error {
-            background: #fce8e6;
-            color: #c5221f;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        /* App Footer */
-        .app-footer {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 12px;
-            color: #7b7b7b;
-            padding-top: 16px;
-            border-top: 1px solid #e6e9ef;
-        }
-
-        /* --- Responsive Adjustments --- */
-        /* For screens wider than 380px, but still within a typical panel width */
-        @media (min-width: 381px) {
-            .presets-grid {
-                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Allow more flexible column sizing */
-            }
-        }
-
-        /* For very small screens */
-        @media (max-width: 380px) {
-            body {
-                padding: 10px;
-            }
-
-            .app-container {
-                padding: 15px;
-            }
-
-            .app-header {
-                margin-bottom: 15px;
-                padding-bottom: 12px;
-            }
-
-            .app-icon {
-                width: 32px;
-                height: 32px;
-                font-size: 14px;
-                margin-right: 10px;
-            }
-
-            .app-title {
-                font-size: 17px;
-            }
-
-            .app-description {
-                font-size: 12px;
-            }
-
-            .presets-grid {
-                grid-template-columns: 1fr; /* Single column layout for presets on small screens */
-                gap: 10px;
-            }
-        }
-    </style>
 </head>
 <body>
+    
     <div class="app-container">
         <div class="app-header">
             <div class="app-icon">BS</div>
@@ -331,20 +16,57 @@
                 <p class="app-description">Apply beautiful shadows with one click</p>
             </div>
         </div>
-        
-        <div id="app">
-            <div class="state no-element">
-                <div class="no-element-icon">✋</div>
-                <p class="no-element-title">Select an Element</p>
-                <p class="no-element-description">Please select an element in Webflow Designer to apply shadow effects</p>
-            </div>
-        </div>
-        
-        <div class="app-footer">
-            <p>Select an element and click a preset to apply</p>
-        </div>
-    </div>
 
+        <div id="main-panel">
+            
+            <div id="controls-section">
+                <div class="custom-builder">
+                    <div class="preview-box-container">
+                        <div id="live-preview-box"></div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="distance-slider">Distance</label>
+                        <input type="range" id="distance-slider" min="0" max="50" value="10">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="intensity-slider">Intensity</label>
+                        <input type="range" id="intensity-slider" min="0" max="100" value="25">
+                    </div>
+
+                    <div class="control-group">
+                        <label for="sharpness-slider">Sharpness</label>
+                        <input type="range" id="sharpness-slider" min="0" max="100" value="50">
+                    </div>
+
+                    <div class="control-group">
+                        <label for="color-picker">Color</label>
+                        <input type="color" id="color-picker" value="#000000">
+                    </div>
+                </div>
+
+                <button id="apply-custom-btn">Apply Custom Shadow</button>
+                
+                <button id="toggle-presets-btn" class="secondary-btn">Show Presets</button>
+            </div>
+
+            <div id="presets-section" style="display: none;">
+                <div id="app">
+                    <div class="state no-element">
+                        <div class="no-element-icon">✋</div>
+                        <p class="no-element-title">Select an Element</p>
+                        <p class="no-element-description">Please select an element in Webflow Designer to apply shadow effects</p>
+                    </div>
+                </div>
+                
+                <button id="back-to-controls-btn" class="secondary-btn">Back to Controls</button>
+            </div>
+            
+        </div>
+
+    </div>
+    
     <script src="./index.js"></script>
 </body>
 </html>

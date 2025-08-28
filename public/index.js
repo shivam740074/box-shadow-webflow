@@ -1,9 +1,3 @@
-// const emojiMap = {
-//   smile: "😊",
-//   wink: "😉",
-//   heart: "😍",
-//   cry: "😭",
-// };
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -13,102 +7,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-// // default to smile
-// let selectedEmoji = emojiMap.smile;
-// addButtonListeners();
-// document.getElementById("extension-form").onsubmit = async (event) => {
-//   event.preventDefault();
-//   // Get the current selected Element
-//   const el = await webflow.getSelectedElement();
-//   // If styles can be set on the Element
-//   if (el && el.styles && el.children) {
-//     //Get current element's style
-//     const currentStyle = await el.getStyles();
-//     // Get style
-//     const emojiStyle = await createOrUseStyle("emoji-style");
-//     // Create a new element that will display the text-emoji
-//     const labelElement = await el.append(webflow.elementPresets.DOM);
-//     await labelElement.setTag("span");
-//     await labelElement.setStyles([...currentStyle, emojiStyle]);
-//     await labelElement.setTextContent(selectedEmoji);
-//   } else {
-//     alert("Please select a text element");
-//   }
-// };
-// // Check if specified style exists. If not, create a new style
-// async function createOrUseStyle(styleName) {
-//   // Check if this style exists to avoid duplicate styles
-//   const style = await webflow.getStyleByName(styleName);
-//   if (style) {
-//     // Return existing style
-//     return style;
-//   } else {
-//     // Create a new style, return it
-//     const emojiStyle = await webflow.createStyle(styleName);
-//     await emojiStyle.setProperties({ "background-color": "#FF00FF" });
-//     return emojiStyle;
-//   }
-// }
-// function handleEmojiClick(emoji) {
-//   selectedEmoji = emoji;
-// }
-// function addButtonListeners() {
-//   document.getElementById("smile").onclick = () => {
-//     handleEmojiClick(emojiMap.smile);
-//   };
-//   document.getElementById("wink").onclick = () => {
-//     handleEmojiClick(emojiMap.wink);
-//   };
-//   document.getElementById("heart").onclick = () => {
-//     handleEmojiClick(emojiMap.heart);
-//   };
-//   document.getElementById("cry").onclick = () => {
-//     handleEmojiClick(emojiMap.cry);
-//   };
-// }
-// // Preset shadows
-// const shadowMap: Record<string, string> = {
-//   soft: "0px 4px 10px rgba(0, 0, 0, 0.15)",
-//   medium: "0px 6px 20px rgba(0, 0, 0, 0.25)",
-//   strong: "0px 10px 30px rgba(0, 0, 0, 0.35)",
-//   inner: "inset 0px 4px 6px rgba(0, 0, 0, 0.3)",
-//   glowing: "0px 0px 20px rgba(0, 150, 255, 0.6)",
-// };
-// // Apply selected shadow to the chosen element
-// async function applyShadow(shadow: string) {
-//   const el = await webflow.getSelectedElement();
-//   if (el && el.styles) {
-//     const shadowStyle =
-//       (await webflow.getStyleByName("box-shadow-style")) ||
-//       (await webflow.createStyle("box-shadow-style"));
-//     await shadowStyle.setProperties({
-//       "box-shadow": shadow,
-//     });
-//     await el.setStyles([shadowStyle]);
-//   } else {
-//     showMessage("⚠️ Please select an element in Webflow first.");
-//   }
-// }
-// // Show feedback message
-// function showMessage(msg: string) {
-//   const msgBox = document.getElementById("message");
-//   if (msgBox) {
-//     msgBox.innerText = msg;
-//     msgBox.style.display = "block";
-//     setTimeout(() => (msgBox.style.display = "none"), 3000);
-//   } else {
-//     alert(msg); // fallback
-//   }
-// }
-// // Setup button listeners
-// function setupListeners() {
-//   Object.keys(shadowMap).forEach((key) => {
-//     const btn = document.getElementById(key);
-//     if (btn) btn.onclick = () => applyShadow(shadowMap[key]);
-//   });
-// }
-// document.addEventListener("DOMContentLoaded", setupListeners);
-// Prefix for newly created classes
 const NEW_CLASS_PREFIX = "box-shadow-preset-";
 const shadowPresets = {
     Soft: "0px 4px 10px rgba(0, 0, 0, 0.15)",
@@ -126,7 +24,7 @@ function waitForWebflow() {
     return __awaiter(this, arguments, void 0, function* (timeout = 5000, interval = 200) {
         const start = Date.now();
         while (Date.now() - start < timeout) {
-            const wf = window.webflow || (typeof window.webflow !== "undefined" && window.webflow);
+            const wf = window.webflow;
             if (wf) {
                 console.log("[box-shadow] webflow API found");
                 return wf;
@@ -139,7 +37,7 @@ function waitForWebflow() {
 }
 function getSelectedElement() {
     return __awaiter(this, void 0, void 0, function* () {
-        const wf = window.webflow || (typeof window.webflow !== "undefined" && window.webflow);
+        const wf = window.webflow;
         if (!wf)
             return null;
         try {
@@ -169,7 +67,7 @@ function getSelectedElement() {
                     return arr[0];
             }
         }
-        catch (e) {
+        catch (_a) {
             // ignore
         }
         return null;
@@ -177,131 +75,97 @@ function getSelectedElement() {
 }
 /**
  * Applies a box-shadow value to the selected element.
- * Prioritizes modifying an existing primary class.
- * If no classes are present, it attempts to create a new class.
- * If class creation fails, it falls back to applying the style as an inline style.
  */
 function applyShadowToElement(el, shadowValue) {
     return __awaiter(this, void 0, void 0, function* () {
-        const wf = window.webflow || (typeof window.webflow !== "undefined" && window.webflow);
+        const wf = window.webflow;
         if (!wf) {
-            console.warn("[box-shadow] Webflow API not available, cannot apply style.");
             flashMessage("Error: Webflow API not available.", "error");
             return false;
         }
         try {
-            let styleOperationSuccess = false;
-            let specificErrorMessage = "";
-            console.log("[box-shadow] --- Starting applyShadowToElement ---");
-            console.log("[box-shadow] Selected Element (el):", el);
-            console.log("[box-shadow] Shadow Value to apply:", shadowValue);
-            console.log("[box-shadow] Checking for el.getStyles method:", typeof el.getStyles);
-            // 1. Attempt to find and modify an existing primary class
-            if (typeof el.getStyles === 'function') {
-                const styles = yield el.getStyles();
-                console.log("[box-shadow] Styles retrieved from element:", styles);
-                if (styles && styles.length > 0) {
-                    const targetStyle = styles[0];
-                    console.log("[box-shadow] Primary style object found:", targetStyle);
-                    console.log("[box-shadow] Type of targetStyle.setProperties:", typeof targetStyle.setProperties);
-                    if (targetStyle && typeof targetStyle.setProperties === 'function') {
-                        const primaryStyleName = yield targetStyle.getName();
-                        console.log(`[box-shadow] Attempting to update existing class: "${primaryStyleName}" with shadow: "${shadowValue}"`);
-                        yield targetStyle.setProperties({ "box-shadow": shadowValue });
-                        console.log(`[box-shadow] Successfully updated class "${primaryStyleName}" with new shadow.`);
-                        flashMessage(`Shadow applied to "${primaryStyleName}" class!`, "success");
-                        styleOperationSuccess = true;
-                    }
-                    else {
-                        console.warn(`[box-shadow] Primary style object is invalid or does not support setProperties. targetStyle:`, targetStyle);
-                        specificErrorMessage = "Error: Selected element's primary class is unmodifiable. Attempting to create new class.";
-                    }
+            // Try to apply shadow to the element's main class first.
+            const styles = yield el.getStyles();
+            if (styles && styles.length > 0) {
+                const primaryStyle = styles[0];
+                if (primaryStyle && typeof primaryStyle.setProperties === 'function') {
+                    yield primaryStyle.setProperties({ "box-shadow": shadowValue });
+                    const primaryStyleName = yield primaryStyle.getName();
+                    flashMessage(`Shadow applied to "${primaryStyleName}" class!`, "success");
+                    return true;
                 }
-                else {
-                    console.log("[box-shadow] Element has no classes. Proceeding to attempt creating a new class.");
-                }
-            }
-            else {
-                console.log("[box-shadow] Element does not support getStyles. Proceeding to attempt creating a new class.");
-                specificErrorMessage = "Error: Element does not expose 'getStyles' method. Attempting to create new class.";
-            }
-            // 2. If no existing class was successfully modified, attempt to create a new class
-            if (!styleOperationSuccess) {
-                console.log("[box-shadow] Attempting to create and apply a new class.");
-                if (typeof wf.createStyle === 'function' && typeof el.addStyles === 'function') {
-                    const newClassName = NEW_CLASS_PREFIX + Date.now(); // Generate a unique class name
-                    console.log(`[box-shadow] Generated new class name: "${newClassName}"`);
-                    try {
-                        const newStyle = yield wf.createStyle(newClassName);
-                        console.log("[box-shadow] createStyle result:", newStyle);
-                        if (newStyle && typeof newStyle.setProperties === 'function') {
-                            yield newStyle.setProperties({ "box-shadow": shadowValue });
-                            console.log(`[box-shadow] Set properties on new style "${newClassName}".`);
-                            try {
-                                yield el.addStyles([newStyle]); // Add the newly created class to the element
-                                console.log(`[box-shadow] Successfully created and applied new class "${newClassName}".`);
-                                flashMessage(`Shadow applied to new class "${newClassName}"!`, "success");
-                                styleOperationSuccess = true;
-                            }
-                            catch (addStylesError) {
-                                console.error(`[box-shadow] Failed to add new class "${newClassName}" to element:`, addStylesError);
-                                specificErrorMessage = `Error: Failed to add new class to element. This might be due to Webflow API permissions.`;
-                            }
-                        }
-                        else {
-                            console.warn("[box-shadow] Failed to create or set properties on new style object. newStyle:", newStyle);
-                            specificErrorMessage = "Error: Failed to create new style properties.";
-                        }
-                    }
-                    catch (createStyleError) {
-                        console.error(`[box-shadow] Failed to create new style "${newClassName}":`, createStyleError);
-                        specificErrorMessage = `Error: Failed to create new class. This is likely due to Webflow API limitations.`;
-                    }
-                }
-                else {
-                    console.warn("[box-shadow] Webflow API does not support createStyle or element does not support addStyles. This is required for creating new classes.");
-                    specificErrorMessage = "Error: Webflow API does not support creating new classes or adding them to elements.";
-                }
-            }
-            // 3. Final Fallback: If neither class modification nor creation worked, try inline styling
-            if (!styleOperationSuccess) {
-                console.log("[box-shadow] Neither class modification nor creation worked. Falling back to apply inline style.");
-                if (typeof el.setStyle === 'function') {
-                    yield el.setStyle('box-shadow', shadowValue);
-                    console.log("[box-shadow] Successfully applied inline style via setStyle as a last resort.");
-                    flashMessage("Shadow applied as inline style!", "success");
-                    styleOperationSuccess = true;
-                }
-                else if (typeof el.setProperty === 'function') {
-                    yield el.setProperty('box-shadow', shadowValue);
-                    console.log("[box-shadow] Successfully applied inline style via setProperty as a last resort.");
-                    flashMessage("Shadow applied as inline style!", "success");
-                    styleOperationSuccess = true;
-                }
-                else {
-                    console.warn("[box-shadow] Element does not support setStyle or setProperty for inline styling.");
-                    specificErrorMessage = "Error: Element does not support any known styling methods (class or inline). Please select a Div Block or similar element.";
-                }
-            }
-            if (styleOperationSuccess) {
-                console.log("[box-shadow] --- applyShadowToElement finished successfully ---");
-                return true;
-            }
-            else {
-                if (!specificErrorMessage) {
-                    specificErrorMessage = "Error: Could not apply shadow. Element must have a class or support inline styling.";
-                }
-                console.warn("[box-shadow] --- applyShadowToElement failed ---");
-                console.warn("[box-shadow] Final failure: No suitable method found to apply box-shadow. Element:", el, "Message:", specificErrorMessage);
-                flashMessage(specificErrorMessage, "error");
-                return false;
             }
         }
         catch (err) {
-            console.error("[box-shadow] applyShadow general error (caught outside specific blocks):", err);
-            flashMessage("Error applying shadow. Check console for details.", "error");
-            return false;
+            console.warn("[box-shadow] Failed to apply to primary class, trying fallback.", err);
         }
+        try {
+            // Fallback: Create a new class.
+            if (typeof wf.createStyle === "function" && typeof el.setStyles === "function") {
+                const newClassName = NEW_CLASS_PREFIX + Date.now();
+                const newStyle = yield wf.createStyle(newClassName);
+                yield newStyle.setProperties({ "box-shadow": shadowValue });
+                const currentStyles = (yield el.getStyles()) || [];
+                const nextStyles = [...currentStyles, newStyle];
+                yield el.setStyles(nextStyles);
+                flashMessage(`Shadow applied to a new class!`, "success");
+                return true;
+            }
+        }
+        catch (err) {
+            console.warn("[box-shadow] Failed to create new class, trying fallback.", err);
+        }
+        try {
+            // Last resort: Apply as an inline style.
+            if (typeof el.setStyle === 'function') {
+                yield el.setStyle('box-shadow', shadowValue);
+                flashMessage("Shadow applied as inline style!", "success");
+                return true;
+            }
+        }
+        catch (err) {
+            console.error("[box-shadow] Failed to apply as inline style.", err);
+        }
+        // If all methods fail.
+        flashMessage("Error: Could not apply shadow to the element.", "error");
+        return false;
+    });
+}
+/**
+ * Clears the box-shadow value from the selected element.
+ */
+function clearShadowFromElement() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const el = yield getSelectedElement();
+        if (!el) {
+            flashMessage("Please select an element first.", "error");
+            return;
+        }
+        // First, try to remove the inline style.
+        try {
+            if (typeof el.removeProperty === 'function') {
+                yield el.removeProperty('box-shadow');
+            }
+        }
+        catch (err) {
+            console.warn("[box-shadow] Could not remove inline style.", err);
+        }
+        // Then, try to set the box-shadow property to none on the main class.
+        try {
+            const styles = yield el.getStyles();
+            if (styles && styles.length > 0) {
+                const primaryStyle = styles[0];
+                if (primaryStyle && typeof primaryStyle.setProperties === 'function') {
+                    yield primaryStyle.setProperties({ "box-shadow": "none" });
+                    flashMessage("Shadow removed!", "success");
+                    return;
+                }
+            }
+        }
+        catch (err) {
+            console.warn("[box-shadow] Could not clear shadow from primary class.", err);
+        }
+        flashMessage("Shadow removed!", "success");
     });
 }
 function showInitialState() {
@@ -327,22 +191,26 @@ function showSelectedElementState(elementName) {
         </div>
         <div class="presets-grid" id="presets">
     `;
-    Object.keys(shadowPresets).forEach((k) => {
-        const v = shadowPresets[k];
-        presetsHtml += `
-            <div class="preset-card" data-key="${k}">
-                <div class="shadow-preview" style="box-shadow: ${v};"></div>
-                <div class="preset-name">${escapeHtml(k)}</div>
-            </div>
-        `;
-    });
-    presetsHtml += `</div>`;
+    for (const k in shadowPresets) {
+        if (Object.prototype.hasOwnProperty.call(shadowPresets, k)) {
+            const v = shadowPresets[k];
+            presetsHtml += `
+                <div class="preset-card" data-key="${k}">
+                    <div class="shadow-preview" style="box-shadow: ${v};"></div>
+                    <div class="preset-name">${escapeHtml(k)}</div>
+                </div>
+            `;
+        }
+    }
+    presetsHtml += `</div>
+        <button id="clear-shadow-btn" class="clear-btn">Clear Shadow</button>
+    `;
     app.innerHTML = presetsHtml;
     const container = document.getElementById("presets");
     if (!container)
         return;
     container.querySelectorAll(".preset-card").forEach((card) => {
-        card.addEventListener("click", (ev) => __awaiter(this, void 0, void 0, function* () {
+        card.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
             const key = card.getAttribute("data-key") || "";
             const shadowValue = shadowPresets[key];
             if (!shadowValue)
@@ -354,25 +222,22 @@ function showSelectedElementState(elementName) {
                 showInitialState();
                 return;
             }
-            const ok = yield applyShadowToElement(el, shadowValue);
-            console.log(`[box-shadow] apply result for "${key}":`, ok);
-            if (!ok) {
-                // flashMessage is already called inside applyShadowToElement if it fails
-            }
-            else {
-                // flashMessage is called inside applyShadowToElement on success
-            }
+            yield applyShadowToElement(el, shadowValue);
         }));
     });
+    // Add event listener for the new "Clear Shadow" button
+    const clearBtn = document.getElementById("clear-shadow-btn");
+    if (clearBtn) {
+        clearBtn.addEventListener("click", clearShadowFromElement);
+    }
 }
 function flashMessage(text, type = "success") {
     const app = document.getElementById("app");
     if (!app)
         return;
     const existingMsg = document.getElementById("bs-msg");
-    if (existingMsg) {
+    if (existingMsg)
         existingMsg.remove();
-    }
     const msg = document.createElement("div");
     msg.id = "bs-msg";
     msg.className = `message ${type}`;
@@ -398,7 +263,6 @@ function updateUIBasedOnSelection() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const el = yield getSelectedElement();
-            console.log("[box-shadow] current selected element:", el);
             if (!el) {
                 showInitialState();
                 return;
@@ -423,37 +287,81 @@ function initApp() {
         try {
             if (typeof wf.on === 'function') {
                 try {
-                    wf.on('ready', () => {
-                        console.log("[box-shadow] Webflow ready event triggered");
-                        updateUIBasedOnSelection();
-                    });
+                    wf.on('ready', updateUIBasedOnSelection);
                 }
-                catch (e) { /* ignore */ }
+                catch ( /* ignore */_a) { /* ignore */ }
                 try {
-                    wf.on('selectionchange', () => {
-                        console.log("[box-shadow] Selection change event triggered");
-                        updateUIBasedOnSelection();
-                    });
+                    wf.on('selectionchange', updateUIBasedOnSelection);
                 }
-                catch (e) { /* ignore */ }
+                catch ( /* ignore */_b) { /* ignore */ }
             }
         }
-        catch (e) { /* ignore */ }
-        const start = Date.now(); // Corrected: Date.now()
+        catch ( /* ignore */_c) { /* ignore */ }
+        const start = Date.now();
         const maxPoll = 3000;
-        let picked = false;
-        while (Date.now() - start < maxPoll) { // Corrected: Date.now()
+        while (Date.now() - start < maxPoll) {
             const el = yield getSelectedElement();
-            if (el) {
-                picked = true;
+            if (el)
                 break;
-            }
             yield sleep(200);
         }
         yield updateUIBasedOnSelection();
         setInterval(() => updateUIBasedOnSelection().catch((e) => console.error(e)), 1500);
     });
 }
-document.addEventListener("DOMContentLoaded", () => __awaiter(this, void 0, void 0, function* () {
-    initApp();
-}));
+document.addEventListener("DOMContentLoaded", () => { initApp(); });
+// 
+// Get the elements and check if they exist
+const distanceSlider = document.getElementById('distance-slider');
+const intensitySlider = document.getElementById('intensity-slider');
+const sharpnessSlider = document.getElementById('sharpness-slider');
+const colorPicker = document.getElementById('color-picker');
+const previewBox = document.getElementById('live-preview-box');
+const applyBtn = document.getElementById('apply-custom-btn');
+// A single function to update the preview shadow
+function updatePreview() {
+    // Check if any of the elements are null before continuing
+    if (!distanceSlider || !intensitySlider || !sharpnessSlider || !colorPicker || !previewBox) {
+        console.warn("One or more required elements not found. Cannot update preview.");
+        return;
+    }
+    const distance = Number(distanceSlider.value);
+    const intensity = Number(intensitySlider.value) / 100;
+    const sharpness = 100 - Number(sharpnessSlider.value);
+    // Ensure color value is a string and handle possible null
+    const color = colorPicker.value || "#000000";
+    const blur = sharpness / 2;
+    const spread = 0;
+    // We need a helper to convert hex to RGBA
+    const hexToRgb = (hex) => {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        return `${r}, ${g}, ${b}`;
+    };
+    const rgbaColor = `rgba(${hexToRgb(color)}, ${intensity})`;
+    const shadowValue = `${distance}px ${distance}px ${blur}px ${spread}px ${rgbaColor}`;
+    previewBox.style.boxShadow = shadowValue;
+}
+// Add event listeners to the controls only if they exist
+if (distanceSlider)
+    distanceSlider.addEventListener('input', updatePreview);
+if (intensitySlider)
+    intensitySlider.addEventListener('input', updatePreview);
+if (sharpnessSlider)
+    sharpnessSlider.addEventListener('input', updatePreview);
+if (colorPicker)
+    colorPicker.addEventListener('input', updatePreview);
+// Add listener to the Apply button
+if (applyBtn) {
+    applyBtn.addEventListener('click', () => __awaiter(this, void 0, void 0, function* () {
+        const el = yield getSelectedElement();
+        if (el) {
+            // Use the current box-shadow from the preview box
+            yield applyShadowToElement(el, previewBox.style.boxShadow);
+        }
+        else {
+            flashMessage("Please select an element first.", "error");
+        }
+    }));
+}

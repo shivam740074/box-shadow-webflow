@@ -1,282 +1,490 @@
-/* body {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+        
+        /* Body Styling */
+        body {
+            background: #f5f7f9;
+            color: #1a1a1a;
+            line-height: 1.5;
+            padding: 16px;
+            width: 100%; /* Ensure body takes full width */
+            overflow-x: hidden;
+        }
+        
+        /* Main App Container - Now fully fluid */
+        .app-container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            width: 100%; /* Make the container take 100% of available width */
+            /* Removed max-width to allow it to expand beyond 340px */
+            margin: 0 auto; /* Still keeps it centered if parent has max-width */
+        }
+        
+        /* App Header - Improved Alignment */
+        .app-header {
+            display: flex;
+            align-items: center; /* Vertically align items in the center */
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e6e9ef;
+        }
+        
+        /* App Icon - Adjusted margin for better spacing */
+        .app-icon {
+            width: 36px; /* Slightly larger icon */
+            height: 36px; /* Slightly larger icon */
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 14px; /* Increased space between icon and text */
+            color: white;
+            font-weight: bold;
+            font-size: 16px; /* Slightly larger font for icon text */
+        }
+        
+        /* App Title */
+        .app-title {
+            font-size: 19px; /* Slightly larger title */
+            font-weight: 600;
+            color: #1a1a1a;
+            line-height: 1.2; /* Tighter line height for title */
+        }
+        
+        /* App Description */
+        .app-description {
+            font-size: 13px;
+            color: #666;
+            margin-top: 2px; /* Reduced margin for closer description */
+        }
+        
+        /* General State Styling (used for messages or initial states) */
+        .state {
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        /* Selected Element Display */
+        .selected-element {
+            background: #f0f4ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: #4a4a4a;
+        }
+        
+        .element-name {
+            font-weight: 600;
+            color: #3d5afe;
+        }
+        
+        /* Presets Grid */
+        .presets-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Default two columns */
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        /* Preset Card Styling */
+        .preset-card {
+            background: #fff;
+            border: 1px solid #e6e9ef;
+            border-radius: 10px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        
+        .preset-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            border-color: #c2c9d6;
+        }
+        
+        .preset-card.active {
+            border-color: #3d5afe;
+            background-color: #f0f4ff;
+        }
+        
+        /* Shadow Preview Box within cards */
+        .shadow-preview {
+            width: 100%;
+            height: 70px;
+            border-radius: 8px;
+            background: #fff;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .preset-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            text-transform: capitalize;
+        }
+        
+        /* No Element Selected State */
+        .no-element {
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .no-element-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #a0a5b1;
+        }
+        
+        .no-element-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #4a4a4a;
+        }
+        
+        .no-element-description {
+            color: #7b7b7b;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        /* Flash Message Styling */
+        .message {
+            margin-top: 16px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            text-align: center;
+            animation: fadeIn 0.3s ease;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .success {
+            background: #e6f4ea;
+            color: #137333;
+        }
+        
+        .error {
+            background: #fce8e6;
+            color: #c5221f;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* App Footer */
+        .app-footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #7b7b7b;
+            padding-top: 16px;
+            border-top: 1px solid #e6e9ef;
+        }
 
-form {
-  padding: 16px;
-  font-family: sans-serif;
-  text-align: center;
-  color: #fff;
-}
-
-button {
-  color: #fff;
-  background: #0073e6;
-  padding: 4px 8px;
-  border: 2px solid #0073e6;
-  border-radius: 4px;
-}
-
-button:focus {
-  outline: none;
-  border-color: #1280ee;
-}
-
-label > input[type="radio"] {
-  visibility: hidden;
-}
-
-#emoji-container {
-  margin-top: 1.5rem;
-} */
-
-
-
-
-
-/* 
-body {
-  font-family: sans-serif;
-  padding: 1rem;
-  background: #f9f9f9;
-}
-
-.title {
-  margin-bottom: 1rem;
-}
-
-.btn-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
-  background: #333;
-  color: white;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-button:hover {
-  background: #555;
-}
-
-.message {
-  margin-top: 1rem;
-  padding: 0.5rem;
-  background: #fffae5;
-  border: 1px solid #f0d48a;
-  border-radius: 6px;
-  font-size: 14px;
-} */
-
-
-
-/* style.css */
-
-/* -- General App Layout -- */
-/* Global Reset and Base Styles */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    /* Using a common system font stack for better compatibility within Webflow Designer */
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-}
-
-/* Body Styling */
-body {
-    background: #f5f7f9; /* Light background for the app's overall container */
-    color: #1a1a1a; /* Dark text for readability */
-    line-height: 1.5;
-    padding: 16px;
-    max-width: 100%;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-}
-
-/* Main App Container */
-.app-container {
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* Subtle shadow for the app card */
-    padding: 20px;
-    max-width: 340px; /* Constrain width for a compact app */
-    margin: 0 auto; /* Center the app container */
-}
-
-/* App Header */
-.app-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid #e6e9ef; /* Separator line */
-}
-
-/* App Icon */
-.app-icon {
-    width: 32px;
-    height: 32px;
-    background: linear-gradient(135deg, #6e8efb, #a777e3); /* Gradient background for the icon */
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 12px;
-    color: white;
-    font-weight: bold;
-    font-size: 14px; /* Adjust icon text size */
-}
-
-/* App Title */
-.app-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #1a1a1a;
-}
-
-/* App Description */
-.app-description {
-    font-size: 13px;
-    color: #666;
-    margin-top: 4px;
-}
-
-/* General State Styling (used for messages or initial states) */
-.state {
-    text-align: center;
-    padding: 20px 0;
-}
-
-/* Selected Element Display */
-.selected-element {
-    background: #f0f4ff; /* Light blue background */
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 16px;
-    font-size: 13px;
-    color: #4a4a4a; /* Dark gray text */
-}
-
-.element-name {
-    font-weight: 600;
-    color: #3d5afe; /* Prominent blue for element name */
-}
-
-/* Presets Grid */
-.presets-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two columns for presets */
-    gap: 12px;
-    margin-top: 16px;
-}
-
-/* Preset Card Styling */
-.preset-card {
-    background: #fff;
-    border: 1px solid #e6e9ef;
-    border-radius: 10px;
-    padding: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease; /* Smooth transitions for hover/active states */
-    text-align: center;
-}
-
-.preset-card:hover {
-    transform: translateY(-2px); /* Slight lift effect */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Enhanced shadow on hover */
-    border-color: #c2c9d6;
-}
-
-.preset-card.active {
-    border-color: #3d5afe; /* Blue border for active preset */
-    background-color: #f0f4ff; /* Light blue background for active preset */
-}
-
-/* Shadow Preview Box within cards */
-.shadow-preview {
+        /* Style for the Clear Shadow button */
+.clear-btn {
+    /* Basic button properties */
+    display: block;
     width: 100%;
-    height: 70px;
-    border-radius: 8px;
-    background: #fff; /* White background to show shadow clearly */
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.preset-name {
-    font-size: 12px;
-    font-weight: 600;
-    color: #333;
-    text-transform: capitalize;
-}
-
-/* No Element Selected State */
-.no-element {
-    padding: 30px 20px;
-    text-align: center;
-}
-
-.no-element-icon {
-    font-size: 40px;
-    margin-bottom: 15px;
-    color: #a0a5b1; /* Muted color for the icon */
-}
-
-.no-element-title {
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: #4a4a4a;
-}
-
-.no-element-description {
-    color: #7b7b7b;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-/* Flash Message Styling */
-.message {
-    margin-top: 16px;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 13px;
-    text-align: center;
-    animation: fadeIn 0.3s ease; /* Fade-in animation */
-    opacity: 1; /* Ensure it's visible after fade-in */
-    transition: opacity 0.3s ease; /* Smooth fade-out */
-}
-
-.success {
-    background: #e6f4ea; /* Light green for success */
-    color: #137333; /* Dark green text */
-}
-
-.error {
-    background: #fce8e6; /* Light red for error */
-    color: #c5221f; /* Dark red text */
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* App Footer */
-.app-footer {
     margin-top: 20px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
     text-align: center;
-    font-size: 12px;
-    color: #7b7b7b;
-    padding-top: 16px;
-    border-top: 1px solid #e6e9ef; /* Separator line */
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+
+    /* Colors */
+    background-color: #f0f0f5; /* Light gray background */
+    color: #4b5563; /* Dark gray text */
+    border: 1px solid #d1d5db; /* Light gray border */
+
+    /* To make sure it stands out but isn't too distracting */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Hover state for interaction feedback */
+.clear-btn:hover {
+    background-color: #e5e7eb; /* Slightly darker gray on hover */
+    border-color: #9ca3af; /* A slightly darker border */
+}
+
+/* Active/Clicked state */
+.clear-btn:active {
+    background-color: #d1d5db; /* Even darker gray when clicked */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transform: translateY(1px); /* A slight press down effect */
+}
+
+
+        /* --- Responsive Adjustments --- */
+        /* For screens wider than 380px, but still within a typical panel width */
+        @media (min-width: 381px) {
+            .presets-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Allow more flexible column sizing */
+            }
+        }
+
+        /* For very small screens */
+        @media (max-width: 380px) {
+            body {
+                padding: 10px;
+            }
+
+            .app-container {
+                padding: 15px;
+            }
+
+            .app-header {
+                margin-bottom: 15px;
+                padding-bottom: 12px;
+            }
+
+            .app-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+                margin-right: 10px;
+            }
+
+            .app-title {
+                font-size: 17px;
+            }
+
+            .app-description {
+                font-size: 12px;
+            }
+
+            .presets-grid {
+                grid-template-columns: 1fr; /* Single column layout for presets on small screens */
+                gap: 10px;
+            }
+        }
+
+
+
+
+       /* General container for the entire custom shadow builder */
+#custom-builder {
+    /* Use flexbox for layout, stacking items vertically */
+    display: flex;
+    flex-direction: column;
+    /* Add some spacing between the elements inside */
+    gap: 1.5rem; /* 1.5 times the root font size, making it responsive */
+    /* Padding around the whole builder */
+    padding: 1rem;
+    /* Background and border for a clean look */
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 8px; /* Slightly rounded corners */
+    /* Add a subtle shadow to make it pop */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Ensure it takes full width on small screens and has a max width on larger screens */
+    width: 100%;
+    max-width: 400px; /* Max width for desktop to prevent it from getting too wide */
+    margin: 20px auto; /* Center the builder on the page */
+    font-family: 'Inter', sans-serif; /* Use Inter font as per instructions */
+}
+
+/* Container for the live preview box */
+.preview-box-container {
+    display: flex;
+    justify-content: center; /* Center the preview box horizontally */
+    align-items: center; /* Center the preview box vertically */
+    padding: 1.5rem; /* Padding around the preview box */
+    border: 1px dashed #bbb; /* Dashed border to indicate it's a preview area */
+    border-radius: 8px;
+    background-color: #ffffff; /* White background for the preview area */
+}
+
+/* The actual live preview box that shows the shadow */
+#live-preview-box {
+    width: 10rem; /* Responsive width */
+    height: 10rem; /* Responsive height */
+    background-color: #fefefe; /* Light background for the box itself */
+    border-radius: 8px;
+    transition: box-shadow 0.2s ease-out; /* Smooth transition for shadow changes */
+    /* Keep width and height for mobile. They are set to 150px in inline style in HTML, let's override them with rem units for responsiveness. */
+    width: 10rem !important; /* Override inline style with responsive unit */
+    height: 10rem !important; /* Override inline style with responsive unit */
+}
+
+/* Styles for labels associated with controls */
+#custom-builder label {
+    font-size: 0.9rem; /* Slightly smaller font size */
+    font-weight: 500;
+    color: #444;
+    margin-bottom: 0.25rem; /* Small space below label */
+}
+
+/* Styles for all range input sliders */
+#custom-builder input[type="range"] {
+    width: 100%; /* Take full width of its container */
+    -webkit-appearance: none; /* Remove default WebKit styles */
+    appearance: none;
+    height: 8px; /* Thickness of the slider track */
+    background: #e0e0e0;
+    border-radius: 5px;
+    outline: none;
+    margin: 0.5rem 0; /* Space above and below sliders */
+    cursor: grab;
+    transition: background 0.2s ease;
+}
+
+/* Style the thumb (the draggable circle) of the range input */
+#custom-builder input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #1a75ff; /* Blue color for the thumb */
+    cursor: grab;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+#custom-builder input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #1a75ff;
+    cursor: grab;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Style for the color input picker */
+#custom-builder input[type="color"] {
+    width: 100%; /* Take full width */
+    height: 2.5rem; /* Fixed height for easy clicking */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0.25rem; /* Small padding inside */
+    cursor: pointer;
+    background-color: #fff;
+}
+
+/* Style for the "Apply Custom Shadow" button */
+#apply-custom-btn {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #1a75ff; /* Primary blue color */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    margin-top: 1rem; /* Space above the button */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle button shadow */
+}
+
+#apply-custom-btn:hover {
+    background-color: #005ce6; /* Slightly darker blue on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+#apply-custom-btn:active {
+    transform: translateY(1px); /* Slight press effect */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for the Clear Shadow button (if you are including it) */
+.clear-btn {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: #f0f0f5;
+    color: #4b5563;
+    border: 1px solid #d1d5db;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.clear-btn:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
+}
+
+.clear-btn:active {
+    background-color: #d1d5db;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transform: translateY(1px);
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+    #custom-builder {
+        padding: 0.75rem; /* Less padding on smaller screens */
+        gap: 1rem;
+    }
+
+    .preview-box-container {
+        padding: 1rem;
+    }
+
+    #live-preview-box {
+        width: 8rem !important;
+        height: 8rem !important;
+    }
+
+    #custom-builder label {
+        font-size: 0.8rem;
+    }
+
+    #apply-custom-btn, .clear-btn {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Basic styling for the flash messages */
+.message {
+    position: fixed; /* Keep it on top of other content */
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+    z-index: 1000; /* Ensure it's above everything else */
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.message.success {
+    background-color: #28a745; /* Green for success */
+}
+
+.message.error {
+    background-color: #dc3545; /* Red for error */
 }

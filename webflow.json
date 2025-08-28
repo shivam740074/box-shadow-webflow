@@ -1,6 +1,6 @@
 {
   "name": "bos-shadow-webflow",
   "publicDir": "public",
-  "size": "large",
+  "size": "medium",
   "apiVersion": "2"
 }
